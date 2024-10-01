@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> &#x1F3B0; 행운의 랜덤 컬러 슬롯머신 &#x1F3B0; </title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Helvetica, sans-serif;
+            margin: 0;
+            background-color: #fff;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 64px; 
+            margin-bottom: 30px;
+        }
+
+        .color-box {
+            width: 200px; 
+            height: 200px; 
+            margin: 15px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        #slotContainer {
+            display: flex;
+            justify-content: center;
+        }
+
+        #startButton, #stopButton {
+            padding: 20px 40px; 
+            font-size: 28px; 
+            font-weight: bold;
+            background-color: ##8C8C8C;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #startButton:hover, #stopButton:hover {
+            background-color: #555;
+        }
+
+        #congratsMessage {
+            display: none;
+            font-size: 64px; 
+            color: green;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1> &#x1F3B0; 랜덤 컬러 슬롯머신 &#x1F3B0; </h1>
+    <p>세 개의 색상이 동일할 때 "멈춤"을 눌러보세요!</p>
+
+    
+    <div id="slotContainer">
+        <div class="color-box" id="slot1"></div>
+        <div class="color-box" id="slot2"></div>
+        <div class="color-box" id="slot3"></div>
+    </div>
+
+    
+    <button id="startButton">게임 시작</button>
+    
+    
+    <button id="stopButton" style="display: none;">멈춤</button>
+
+    
+    <div id="congratsMessage"> 성공!!! 🥳 축하합니다 🎊 </div>
+
+    <script>
+        
+        const rainbowColors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+
+        // 색상 전환 속도 (ms)
+        const changeSpeed = 100;
+        let colorInterval;
+
+        const slots = [
+            document.getElementById('slot1'),
+            document.getElementById('slot2'),
+            document.getElementById('slot3')
+        ];
+
+        
+        function startSlotMachine() {
+            colorInterval = setInterval(() => {
+                slots.forEach(slot => {
+                    
+                    const randomColor = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+                    slot.style.backgroundColor = randomColor;
+                });
+            }, changeSpeed);
+        }
+
+       
+        document.getElementById('stopButton').onclick = function() {
+            clearInterval(colorInterval);
+
+            
+            const slotColors = slots.map(slot => slot.style.backgroundColor);
+            if (slotColors[0] === slotColors[1] && slotColors[1] === slotColors[2]) {
+                document.getElementById('congratsMessage').style.display = 'block'; 
+            } else {
+                document.getElementById('congratsMessage').style.display = 'none'; 
+                startSlotMachine(); 
+            }
+        };
+
+        
+        document.getElementById('startButton').onclick = function() {
+            startSlotMachine(); 
+            document.getElementById('startButton').style.display = 'none'; 
+            document.getElementById('stopButton').style.display = 'inline'; 
+        };
+    </script>
+
+</body>
+</html>
